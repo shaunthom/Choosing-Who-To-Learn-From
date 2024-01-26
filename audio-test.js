@@ -10,8 +10,8 @@ function startExperiment() {
     // Instructions trial
     var instructions = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: '...instructions...'
-    };
+        stimulus: 'Click on any button and an audio will be played. Listen carefully and type in the word. Failure to type in the correct word will result in a redirection to this page!'
+    }; 
     timeline.push(instructions);
 
     // Audio test trial 1 for 'apple'
@@ -100,7 +100,7 @@ function startExperiment() {
                     window.location.reload();
                 } else {
                     
-                    window.location.href = 'URL_of_the_new_page'; 
+                    window.location.href = 'familiarization.html'; 
                 }
             } else {
                 console.error("Response data for 'ball' not found.");
