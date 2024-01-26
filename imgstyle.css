@@ -24,6 +24,10 @@
     cursor: pointer; 
 }
 
+.speaker.active-speaker {
+    border: 2px solid yellow;
+    box-shadow: 0px 0px 10px 3px yellow;
+}
 
 .speaker:nth-child(1) { transform: translate(0px, -270px); }
 .speaker:nth-child(2) { transform: rotate(45deg) translate(0px, -270px); }
