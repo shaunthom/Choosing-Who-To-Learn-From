@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var timeline = [];
 
+    // Array of speaker image file paths and corresponding audio file paths
     var speakers = [
         { image: 'components/icons/Picture1.jpg', audio: 'components/audio_files/F1_klounas.wav' },
         { image: 'components/icons/Picture2.jpg', audio: 'components/audio_files/F2_klounas.wav' },
@@ -17,16 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     speakers.forEach(function(speaker, index) {
-        var speaker_trial = {
-            type: jsPsychAudioKeyboardResponse,
-            stimulus: speaker.audio,
-            prompt: function() {
+        // Trial to display speakers and add custom click handler
+        var speaker_display_trial = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
                 var html = '<div class="container">';
                 html += '<div class="speakers">';
 
-
                 speakers.forEach(function(sp, spIndex) {
-                    html += `<img class="speaker${spIndex === index ? ' active-speaker' : ''}" src="${sp.image}" alt="Speaker ${spIndex + 1}">`;
+                    html += `<img id="speaker_${spIndex}" class="speaker${spIndex === index ? ' active-speaker' : ''}" src="${sp.image}" alt="Speaker ${spIndex + 1}">`;
                 });
 
                 html += '</div>';
@@ -36,11 +36,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 return html;
             },
             choices: "NO_KEYS",
+            on_load: function() {
+                document.getElementById(`speaker_${index}`).addEventListener('click', function() {
+                    jsPsychInstance.nextTrial();
+                });
+            }
+        };
+        timeline.push(speaker_display_trial);
+
+        var speaker_audio_trial = {
+            type: jsPsychAudioKeyboardResponse,
+            stimulus: speaker.audio,
+            choices: "NO_KEYS",
             trial_ends_after_audio: true
         };
-
-        timeline.push(speaker_trial);
+        timeline.push(speaker_audio_trial);
     });
+
+    var redirect_trial = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<p>Redirecting to the next part of the experiment...</p>',
+        choices: "NO_KEYS",
+        trial_duration: 2000,
+        on_finish: function() {
+            window.location.href = 'learning_instructions.html';
+        }
+    };
+    timeline.push(redirect_trial);
 
     jsPsychInstance.run(timeline);
 });
