@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     var timeline = [];
-    var totalSelectionCount = 0;  // Counter for the total number of selections made
+    var totalSelectionCount = 0; // Counter for the total number of selections made
     var selectionCount = 0; // Counter for selections in the current trial
 
     function createSpeakerSelectionTrial(centralImage, audioFiles) {
@@ -183,26 +183,44 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             choices: "NO_KEYS",
             on_load: function() {
-                selectionCount = 0; 
+                selectionCount = 0;
             }
         };
     }
 
     window.playAudio = function(audioFile, speakerIndex) {
+        document.querySelectorAll('.speaker').forEach(function(elem) {
+            elem.classList.remove('active-speaker');
+        });
+
         selectionCount++;
         totalSelectionCount++;
+
         var audio = new Audio(audioFile);
         audio.play();
 
-        document.getElementById(`speaker_${speakerIndex}`).classList.add('active-speaker');
+        // Highlight effect
+        var speakerImg = document.getElementById(`speaker_${speakerIndex}`);
+        if (speakerImg) {
+            speakerImg.classList.add('active-speaker');
 
-        if (selectionCount >= 8) {
-            if (totalSelectionCount >= 88) {
-                window.location.href = 'path_to_different_page.html';
-            } else {
-                jsPsychInstance.finishTrial();
-            }
+            // Setting a timeout to remove the highlight effect - can be altered
+            setTimeout(function() {
+                speakerImg.classList.remove('active-speaker');
+            }, 5000);
         }
+
+        audio.onended = function() {
+            if (selectionCount >= 8) {
+                if (totalSelectionCount >= 88) {
+                    // Redirecting to a different HTML page after the last image
+                    window.location.href = 'path_to_different_page.html';
+                } else {
+                    // Preparing for the next set of selections
+                    jsPsychInstance.nextTrial();
+                }
+            }
+        };
     };
 
     centralImageData.forEach(function(data) {
