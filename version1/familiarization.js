@@ -51,6 +51,26 @@ document.addEventListener('DOMContentLoaded', function() {
             trial_ends_after_audio: true
         };
         timeline.push(speaker_audio_trial);
+    
+        var iti_trial = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                var html = '<div class="container">';
+                html += '<div class="speakers">';
+
+                speakers.forEach(function(sp, spIndex) {
+                    html += `<img class="speaker${spIndex === index ? ' active-speaker' : ''}" src="${sp.image}" alt="Speaker ${spIndex + 1}">`;
+                });
+
+                html += '</div>';
+                html += '<div class="center-image"><img src="components/pictures/klounas.jpg" alt="Clown"></div>';
+                html += '</div>';
+                return html;
+            },
+            choices: "NO_KEYS",
+            trial_duration: 2000, // 2 seconds delay
+        };
+        timeline.push(iti_trial);
     });
 
     var redirect_trial = {
