@@ -161,7 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     var timeline = [];
-    var selectionCount = 0;
+    var totalSelectionCount = 0;  // Counter for the total number of selections made
+    var selectionCount = 0; // Counter for selections in the current trial
 
     function createSpeakerSelectionTrial(centralImage, audioFiles) {
         return {
@@ -182,20 +183,25 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             choices: "NO_KEYS",
             on_load: function() {
-                selectionCount = 0;
+                selectionCount = 0; 
             }
         };
     }
 
     window.playAudio = function(audioFile, speakerIndex) {
         selectionCount++;
+        totalSelectionCount++;
         var audio = new Audio(audioFile);
         audio.play();
 
         document.getElementById(`speaker_${speakerIndex}`).classList.add('active-speaker');
 
         if (selectionCount >= 8) {
-            jsPsychInstance.nextTrial();
+            if (totalSelectionCount >= 88) {
+                window.location.href = 'path_to_different_page.html';
+            } else {
+                jsPsychInstance.finishTrial();
+            }
         }
     };
 
