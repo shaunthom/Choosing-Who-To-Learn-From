@@ -86,7 +86,6 @@ function startExperiment() {
     };
     timeline.push(feedback_ball);
 
-    
     var final_check = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
