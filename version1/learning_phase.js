@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (selectionCount % 8 === 0) {
-                acceptClicks = false; // Disabling clicks during the delay - crucial for logic
+                acceptClicks = false; // Disabling clicks during the delay
                 setTimeout(function() {
                     proceedToNextImage();
                     acceptClicks = true; // Re-enabling clicks after the delay
