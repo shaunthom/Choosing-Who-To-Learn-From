@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (selectionCount >= 8) {
                 if (totalSelectionCount >= 88) {
                     // Redirecting to a different HTML page after the last image
-                    window.location.href = 'path_to_different_page.html';
+                    window.location.href = 'test_phase.html';
                 } else {
                     // Preparing for the next set of selections
                     jsPsychInstance.nextTrial();
