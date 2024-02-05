@@ -188,7 +188,10 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    var acceptClicks = true;
     window.playAudio = function(audioFile, speakerIndex) {
+        if (!acceptClicks) return; // Ignoring clicks if not accepting clicks
+
         document.querySelectorAll('.speaker').forEach(function(elem) {
             elem.classList.remove('active-speaker');
         });
@@ -199,33 +202,45 @@ document.addEventListener('DOMContentLoaded', function() {
         var audio = new Audio(audioFile);
         audio.play();
 
-        // Highlight effect
         var speakerImg = document.getElementById(`speaker_${speakerIndex}`);
         if (speakerImg) {
             speakerImg.classList.add('active-speaker');
-
-            // Setting a timeout to remove the highlight effect - can be altered
-            setTimeout(function() {
-                speakerImg.classList.remove('active-speaker');
-            }, 5000);
         }
 
         audio.onended = function() {
-            if (selectionCount >= 8) {
-                if (totalSelectionCount >= 88) {
-                    // Redirecting to a different HTML page after the last image
-                    window.location.href = 'test_phase.html';
-                } else {
-                    // Preparing for the next set of selections
+            if (speakerImg) {
+                setTimeout(function() {
+                    speakerImg.classList.remove('active-speaker');
+                }, 2000); // Adjust timing here as needed
+            }
+
+            if (selectionCount % 8 === 0) {
+                acceptClicks = false; // Disabling clicks during the delay
+                setTimeout(function() {
+                    proceedToNextImage();
+                    acceptClicks = true; // Re-enabling clicks after the delay
+                }, 5000); // 5-second delay
+            } else {
+                proceedToNextImage();
+            }
+        };
+
+        function proceedToNextImage() {
+            if (totalSelectionCount >= 88) {
+                window.location.href = 'test_phase.html';
+            } else {
+                if (selectionCount >= 8) {
+                    selectionCount = 0;
                     jsPsychInstance.nextTrial();
                 }
             }
-        };
+        }
     };
 
-    centralImageData.forEach(function(data) {
+    
+    centralImageData.forEach(function(data, index) {
         timeline.push(createSpeakerSelectionTrial(data.image, data.audioFiles));
     });
-
-    jsPsychInstance.run(timeline);
+    
+    jsPsychInstance.run(timeline);    
 });

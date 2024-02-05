@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     speakers.forEach(function(speaker, index) {
-        // Trial to display speakers and add custom click handler
+        // Trial for displaying speakers:
         var speaker_display_trial = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
