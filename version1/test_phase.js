@@ -35,19 +35,34 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+        
+        let indices = array.map((_, index) => index);       
+        let shuffled = [];
+    
+        while (indices.length > 0) {
+            let randomIndex = Math.floor(Math.random() * indices.length);
+            let chosenIndex = indices[randomIndex];
+
+            if (shuffled.length === 0 || array[chosenIndex].label !== array[shuffled[shuffled.length - 1]].label) {
+                shuffled.push(chosenIndex);
+                indices.splice(randomIndex, 1);
+            } else if (indices.length === 1) {
+                [shuffled[shuffled.length - 1], shuffled[shuffled.length - 2]] = [shuffled[shuffled.length - 2], shuffled[shuffled.length - 1]];
+                shuffled.push(chosenIndex);
+                break;
+            }
         }
+
+        return shuffled.map(index => array[index]);
     }
 
     function startTest() {
         instructionsDiv.style.display = 'none';
         testContentDiv.style.display = 'block';
-        shuffleArray(images);
+        images = shuffleArray(images); // Applying shuffle with no consecutive repeats
         displayImage();
     }
-
+    
     function displayImage() {
         if (currentImageIndex < images.length) {
             const image = images[currentImageIndex];
