@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentImageIndex = 0;
 
-    const images = [
+    let images = [
         { src: 'components/pictures/karve.jpg', label: 'karve'},
         { src: 'components/pictures/kiskis.jpg', label: 'kiskis' },
         { src: 'components/pictures/knyga.jpg', label: 'knyga'},
