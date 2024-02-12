@@ -6,8 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const testContentDiv = document.getElementById('test-content');
     const testImage = document.getElementById('test-image');
     const recordingStatus = document.getElementById('recording-status');
+    const downloadsContainer = document.getElementById('downloadsContainer'); // Ensure this ID matches your HTML
+
 
     let currentImageIndex = 0;
+    let mediaRecorder;
+    let audioChunks = [];
 
     let images = [
         { src: 'components/pictures/karve.jpg', label: 'karve'},
@@ -57,12 +61,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startTest() {
-        instructionsDiv.style.display = 'none';
-        testContentDiv.style.display = 'block';
-        images = shuffleArray(images); // Applying shuffle with no consecutive repeats
-        displayImage();
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    prepareDownloadLink(audioUrl); // download function
+                    audioChunks = []; // Reseting chunks for next recording
+                };
+                instructionsDiv.style.display = 'none';
+                testContentDiv.style.display = 'block';
+                images = shuffleArray(images);
+                displayImage();
+            })
+            .catch(error => console.error('Error accessing media devices:', error));
     }
-    
+
+
     function displayImage() {
         if (currentImageIndex < images.length) {
             const image = images[currentImageIndex];
@@ -72,31 +91,55 @@ document.addEventListener('DOMContentLoaded', function() {
             recordingStatus.style.display = 'none';
             nextButton.style.display = 'none';
         } else {
-            testContentDiv.innerHTML = '<p>Test completed. Thank you!</p>';
+            testContentDiv.innerHTML = '<p>Audio Phase completed!</p>';
+            setTimeout(() => {
+                window.location.href = 'comprehension.html';
+            }, 2000); // Setting time to 2 seconds before redirecting so that user can see the message
         }
     }
 
     function startRecording() {
-        recordingStatus.style.display = 'inline';
-        console.log('Recording started for ' + images[currentImageIndex].label + '...');
-        setTimeout(stopRecording, 200); // Adjust recording duration
+        if (mediaRecorder && mediaRecorder.state === "inactive") {
+            mediaRecorder.start();
+            recordingStatus.style.display = 'block';
+            console.log('Recording started for ' + images[currentImageIndex].label);
+            setTimeout(stopRecording, 2000);
+        }
     }
 
     function stopRecording() {
-        recordingStatus.style.display = 'none';
-        console.log('Recording stopped.');
-        recordButton.style.display = 'none';
-        nextButton.style.display = 'inline';
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop(); // trigger function
+            recordingStatus.style.display = 'none';
+            recordButton.style.display = 'none';
+            nextButton.style.display = 'block';
+        }
+    }
+
+    function prepareDownloadLink(audioUrl) {
+        // Clear previous links
+        downloadsContainer.innerHTML = '';
+
+        // Prepare for download
+        const audioPlayer = document.createElement('audio');
+        const downloadLink = document.createElement('a');
+        audioPlayer.src = audioUrl;
+        audioPlayer.controls = true;
+        downloadLink.href = audioUrl;
+        downloadLink.download = `Recording_${new Date().toISOString()}.wav`;
+        downloadLink.innerText = 'Download';
+        downloadsContainer.appendChild(audioPlayer);
+        downloadsContainer.appendChild(downloadLink);
     }
 
     startButton.addEventListener('click', startTest);
-
-    recordButton.addEventListener('click', function() {
-        startRecording();
-    });
-
+    recordButton.addEventListener('click', startRecording);
     nextButton.addEventListener('click', function() {
         currentImageIndex++;
-        displayImage();
+        if (currentImageIndex >= images.length) {
+            stopRecording();
+        } else {
+            displayImage();
+        }
     });
 });
