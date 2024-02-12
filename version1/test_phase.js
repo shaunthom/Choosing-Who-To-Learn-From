@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function prepareDownloadLink(audioUrl) {
-        // Clear previous links
         downloadsContainer.innerHTML = '';
 
         // Prepare for download
