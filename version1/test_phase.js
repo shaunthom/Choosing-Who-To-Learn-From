@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const testContentDiv = document.getElementById('test-content');
     const testImage = document.getElementById('test-image');
     const recordingStatus = document.getElementById('recording-status');
-    const downloadsContainer = document.getElementById('downloadsContainer'); // Ensure this ID matches your HTML
+    const downloadsContainer = document.getElementById('downloadsContainer');
 
 
     let currentImageIndex = 0;
