@@ -64,14 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
                 mediaRecorder = new MediaRecorder(stream);
+
                 mediaRecorder.ondataavailable = event => {
                     audioChunks.push(event.data);
                 };
+
                 mediaRecorder.onstop = () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                     const audioUrl = URL.createObjectURL(audioBlob);
-                    prepareDownloadLink(audioUrl); // download function
-                    audioChunks = []; // Reseting chunks for next recording
+                    prepareDownloadLink(audioUrl);
+                    audioChunks = []; // Resetting chunks for the next recording
+
+                    if (currentImageIndex >= images.length - 1) {
+                        concludeAudioPhase();
+                    } else {
+                        nextButton.style.display = 'block';
+                    }
                 };
                 instructionsDiv.style.display = 'none';
                 testContentDiv.style.display = 'block';
@@ -83,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function displayImage() {
-        if (currentImageIndex < images.length) {
+        if (currentImageIndex < images.length) { 
             const image = images[currentImageIndex];
             testImage.src = image.src;
             testImage.alt = `Image: ${image.label}`;
@@ -91,35 +99,29 @@ document.addEventListener('DOMContentLoaded', function() {
             recordingStatus.style.display = 'none';
             nextButton.style.display = 'none';
         } else {
-            testContentDiv.innerHTML = '<p>Audio Phase completed!</p>';
-            setTimeout(() => {
-                window.location.href = 'comprehension.html';
-            }, 2000); // Setting time to 2 seconds before redirecting so that user can see the message
+            concludeAudioPhase();
         }
     }
 
-    function startRecording() {
-        if (mediaRecorder && mediaRecorder.state === "inactive") {
-            mediaRecorder.start();
-            recordingStatus.style.display = 'block';
-            console.log('Recording started for ' + images[currentImageIndex].label);
-            setTimeout(stopRecording, 2000);
-        }
-    }
-
-    function stopRecording() {
+    function concludeAudioPhase() {
         if (mediaRecorder && mediaRecorder.state === "recording") {
-            mediaRecorder.stop(); // trigger function
-            recordingStatus.style.display = 'none';
-            recordButton.style.display = 'none';
-            nextButton.style.display = 'block';
+            mediaRecorder.onstop = redirectToComprehension;
+            mediaRecorder.stop();
+        } else {
+            redirectToComprehension();
         }
+    }
+
+    function redirectToComprehension() {
+        testContentDiv.innerHTML = '<p>Audio Phase completed!</p>';
+        console.log("Redirecting to comprehension.html");
+        setTimeout(() => {
+            window.location.href = 'comprehension.html';
+        }, 2000); // Wait 2 seconds to allow user to see the completion message
     }
 
     function prepareDownloadLink(audioUrl) {
         downloadsContainer.innerHTML = '';
-
-        // Prepare for download
         const audioPlayer = document.createElement('audio');
         const downloadLink = document.createElement('a');
         audioPlayer.src = audioUrl;
@@ -132,13 +134,63 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     startButton.addEventListener('click', startTest);
+
     recordButton.addEventListener('click', startRecording);
+
     nextButton.addEventListener('click', function() {
         currentImageIndex++;
         if (currentImageIndex >= images.length) {
-            stopRecording();
+            concludeAudioPhase();
         } else {
             displayImage();
+        }
+    });
+
+    function startRecording() {
+        if (mediaRecorder && mediaRecorder.state === "inactive") {
+            mediaRecorder.start();
+            recordingStatus.style.display = 'block';
+            console.log('Recording started for ' + images[currentImageIndex].label);
+            setTimeout(stopRecording, 2500);
+        }
+    }
+
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop(); // This triggers the onstop event
+            recordingStatus.style.display = 'none';
+            recordButton.style.display = 'none';
+        }
+    }
+
+    mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        prepareDownloadLink(audioUrl);
+        audioChunks = []; // Resetting chunks for the next recording
+
+        if (currentImageIndex >= images.length) {
+            concludeAudioPhase();
+        } else {
+            // For all recordings except the last one, show the next button after recording stops
+            nextButton.style.display = 'block';
+        }
+    };
+
+    function concludeAudioPhase() {
+        testContentDiv.innerHTML = '<p>Audio Phase completed!</p>';
+        console.log("Attempting to redirect...");
+        setTimeout(() => {
+            window.location.href = 'comprehension.html';
+        }, 2000); // Delay before redirection to ensure user sees the message "Audio Phase completed!"
+    }
+
+    nextButton.addEventListener('click', function() {
+        currentImageIndex++;
+        if (currentImageIndex < images.length) {
+            displayImage();
+        } else {
+            stopRecording();
         }
     });
 });
