@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var jsPsychInstance = initJsPsych({
         override_safe_mode: true
     });
-
     var timeline = [];
 
     // Array of speaker image file paths and corresponding audio file paths
@@ -17,7 +16,20 @@ document.addEventListener('DOMContentLoaded', function() {
         { image: 'components/icons/Picture8.jpg', audio: 'components/audio_files/M4_klounas.wav' }
     ];
 
-    speakers.forEach(function(speaker, index) {
+    var indices = speakers.map((_, i) => i);
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Shuffling the indices
+    shuffleArray(indices);
+
+    indices.forEach(function(index) {
+        var speaker = speakers[index];
         // Trial for displaying speakers:
         var speaker_display_trial = {
             type: jsPsychHtmlKeyboardResponse,
@@ -68,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return html;
             },
             choices: "NO_KEYS",
-            trial_duration: 2000, // 2 seconds delay
+            trial_duration: 2000, // 2 seconds delay - Adjust delay here
         };
         timeline.push(iti_trial);
     });

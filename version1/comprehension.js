@@ -126,9 +126,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 event.target.style.border = 'none';
                 playAudioFile();
             } else {
-                console.log("Experiment completed.");
+                console.log("Experiment completed. Redirecting...");
+                redirectToConclusionPage();
             }
         }, 2000);
+    }
+
+    function redirectToConclusionPage() {
+        window.location.href = 'survey.html';
     }
 
     function setClickability(state) {

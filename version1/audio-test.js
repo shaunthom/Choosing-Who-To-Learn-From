@@ -51,7 +51,7 @@ function startExperiment() {
         choices: "NO_KEYS",
         trial_ends_after_audio: true,
         conditional_function: function() {
-            // Running only if the response to 'apple' was correct
+            
             return jsPsychInstance.data.getLastTrialData().values()[0].response.response.trim().toLowerCase() === 'apple';
         }
     };
@@ -63,7 +63,7 @@ function startExperiment() {
         questions: [{ prompt: "What word did you hear?", name: 'response', required: true }],
         data: { test: 'ball', id: 'ball_response' },
         conditional_function: function() {
-            // Running only if the response to 'apple' was correct
+            
             return jsPsychInstance.data.getLastTrialData(2).values()[0].response.response.trim().toLowerCase() === 'apple';
         }
     };
@@ -80,7 +80,7 @@ function startExperiment() {
         choices: "NO_KEYS",
         trial_duration: 2000,
         conditional_function: function() {
-            // Running only if the response to 'apple' was correct
+            
             return jsPsychInstance.data.getLastTrialData(3).values()[0].response.response.trim().toLowerCase() === 'apple';
         }
     };
@@ -100,7 +100,7 @@ function startExperiment() {
                     window.location.reload();
                 } else {
                     
-                    window.location.href = 'familiarization.html'; 
+                    window.location.href = 'familiarization_instructions.html'; 
                 }
             } else {
                 console.error("Response data for 'ball' not found.");
