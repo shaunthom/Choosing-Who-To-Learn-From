@@ -51,3 +51,15 @@
     max-width: 40%;
     height: auto;
 }
+
+.selection-counter {
+    position: fixed; /* or absolute, depending on your layout */
+    top: 20px; /* Adjust as necessary */
+    left: 20px; /* Adjust as necessary */
+    z-index: 3000; /* Ensures it stays on top of other elements */
+    background-color: #fff; /* Background color for visibility */
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional: adds a subtle shadow for better visibility */
+    font-size: 18px; /* Adjust as necessary */
+}
