@@ -6,12 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const testContentDiv = document.getElementById('test-content');
     const testImage = document.getElementById('test-image');
     const recordingStatus = document.getElementById('recording-status');
-    const downloadsContainer = document.getElementById('downloadsContainer');
-
 
     let currentImageIndex = 0;
     let mediaRecorder;
     let audioChunks = [];
+    let participantId = `Participant_${new Date().getTime()}`;
 
     let images = [
         { src: 'components/pictures/karve.jpg', label: 'karve'},
@@ -71,9 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 mediaRecorder.onstop = () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    prepareDownloadLink(audioUrl);
+                    sendAudioToServer(audioBlob, currentImageIndex + 1); // Now also passing the trial number
                     audioChunks = []; // Resetting chunks for the next recording
+                
 
                     if (currentImageIndex >= images.length - 1) {
                         concludeAudioPhase();
@@ -120,18 +119,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000); // Wait 2 seconds to allow user to see the completion message
     }
 
-    function prepareDownloadLink(audioUrl) {
-        downloadsContainer.innerHTML = '';
-        const audioPlayer = document.createElement('audio');
-        const downloadLink = document.createElement('a');
-        audioPlayer.src = audioUrl;
-        audioPlayer.controls = true;
-        downloadLink.href = audioUrl;
-        downloadLink.download = `Recording_${new Date().toISOString()}.wav`;
-        downloadLink.innerText = 'Download';
-        downloadsContainer.appendChild(audioPlayer);
-        downloadsContainer.appendChild(downloadLink);
-    }
+    // function prepareDownloadLink(audioUrl) {
+    //     downloadsContainer.innerHTML = '';
+    //     const audioPlayer = document.createElement('audio');
+    //     const downloadLink = document.createElement('a');
+    //     audioPlayer.src = audioUrl;
+    //     audioPlayer.controls = true;
+    //     downloadLink.href = audioUrl;
+    //     downloadLink.download = `Recording_${new Date().toISOString()}.wav`;
+    //     downloadLink.innerText = 'Download';
+    //     downloadsContainer.appendChild(audioPlayer);
+    //     downloadsContainer.appendChild(downloadLink);
+    // }
 
     startButton.addEventListener('click', startTest);
 
@@ -163,20 +162,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function sendAudioToServer(audioBlob, trialId) {
+        const participantId = `Participant_${new Date().getTime()}`;
+        const timestamp = new Date().toISOString().replace(/:/g, '-'); // Replacing ':' with '-'
+        const filename = `participant_${participantId}_trial_${trialId}_${timestamp}.wav`;
+        const formData = new FormData();
+        formData.append('audio_data', audioBlob, filename);
+    
+        fetch('http://localhost:5000/upload', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => console.log(data))
+        .catch(error => console.error('Error uploading audio:', error));
+    }
+    
     mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        prepareDownloadLink(audioUrl);
-        audioChunks = []; // Resetting chunks for the next recording
-
-        if (currentImageIndex >= images.length) {
+        const trialId = currentImageIndex + 1;
+        sendAudioToServer(audioBlob, trialId);
+        audioChunks = [];  // Resetting chunks for the next recording
+    
+        if (currentImageIndex >= images.length - 1) {
             concludeAudioPhase();
         } else {
-            // For all recordings except the last one, show the next button after recording stops
             nextButton.style.display = 'block';
         }
     };
-
+    
     function concludeAudioPhase() {
         testContentDiv.innerHTML = '<p>Audio Phase completed!</p>';
         console.log("Attempting to redirect...");

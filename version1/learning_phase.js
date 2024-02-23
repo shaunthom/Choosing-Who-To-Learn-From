@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('selection-counter').style.display = 'block'; 
     var jsPsychInstance = initJsPsych({
         override_safe_mode: true
     });
+
 
     var speakerImages = [
         'components/icons/Picture1.jpg',
@@ -164,31 +166,41 @@ document.addEventListener('DOMContentLoaded', function() {
     var totalSelectionCount = 0; // Counter for the total number of selections made
     var selectionCount = 0; // Counter for selections in the current trial
 
-    function createSpeakerSelectionTrial(centralImage, audioFiles) {
+    function createSpeakerSelectionTrial(centralImage, audioFiles, trialIndex) {
         return {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
+                var selectionCounterHTML = `<div id='selection-counter' class='selection-counter'>Selections: ${selectionCount}</div>`;
+    
                 var html = '<div class="container">';
                 html += '<div class="speakers">';
-
+    
                 speakerImages.forEach(function(spImage, spIndex) {
-                    html += `<img id="speaker_${spIndex}" class="speaker" src="${spImage}" alt="Speaker ${spIndex + 1}" onclick="window.playAudio('${audioFiles[spIndex]}', ${spIndex})">`;
+                    html += `<img id="speaker_${spIndex}" class="speaker" src="${spImage}" alt="Speaker ${spIndex + 1}" onclick="window.playAudio('${audioFiles[spIndex]}', ${spIndex}, updateSelectionCounter)">`;
                 });
-
+    
                 html += '</div>';
                 html += `<div class="center-image"><img src="${centralImage}" alt="Central Image"></div>`;
                 html += '</div>';
-
-                return html;
+    
+                return selectionCounterHTML + html;
             },
             choices: "NO_KEYS",
             on_load: function() {
-                selectionCount = 0;
+                selectionCount = 0; // Resetting selection count
             }
         };
     }
 
     var acceptClicks = true;
+
+    window.updateSelectionCounter = function() {
+        var counterElement = document.getElementById('selection-counter');
+        if (counterElement) {
+            counterElement.textContent = `Selections: ${selectionCount}`;
+        }
+    };
+    
     window.playAudio = function(audioFile, speakerIndex) {
         if (!acceptClicks) return; // Ignoring clicks if not accepting clicks
 
@@ -198,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         selectionCount++;
         totalSelectionCount++;
+        updateSelectionCounter();
 
         var audio = new Audio(audioFile);
         audio.play();
@@ -211,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (speakerImg) {
                 setTimeout(function() {
                     speakerImg.classList.remove('active-speaker');
-                }, 2000); // Adjust timing here as needed
+                }, 1500); // syrchronised - don't change!
             }
 
             if (selectionCount % 8 === 0) {
@@ -219,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
                     proceedToNextImage();
                     acceptClicks = true; // Re-enabling clicks after the delay
-                }, 5000); // 5-second delay
+                }, 1300); // synchronised with above delay! - don't change
             } else {
                 proceedToNextImage();
             }
