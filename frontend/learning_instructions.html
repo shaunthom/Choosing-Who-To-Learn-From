@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning Phase Instructions</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+        #next-button {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych/dist/plugin-audio-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Learning Phase</h2>
+        <p>Great! Now, that you know what each speaker sounds like, we will start the learning phase. You will be learning the names for 11 other objects in this phase. You will hear each one 8 times, and you can choose who you want to hear it from each time. Remember that your job is to learn what each word means, and also how to produce it yourself.</p>
+        <button id="next-button">Next</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("next-button").onclick = function() {
+                window.location.href = 'learning1.html';
+            };
+        });
+    </script>
+</body>
+</html>
