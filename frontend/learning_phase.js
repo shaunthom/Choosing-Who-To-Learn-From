@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    let participantId = `Participant_${new Date().getTime()}`;
+    localStorage.setItem('participantId', participantId);
     document.getElementById('selection-counter').style.display = 'block'; 
     var jsPsychInstance = initJsPsych({
         override_safe_mode: true
     });
-
 
     var speakerImages = [
         'components/icons/Picture1.jpg',
@@ -192,6 +193,26 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    function sendSelectionData(audioFile, currentTrialIndex) {
+        
+        const participantId = localStorage.getItem('participantId');
+        const objectOnScreen = document.querySelector('.center-image img').getAttribute('src');
+        const filePlayed = audioFile;
+        const trialIndex = selectionCount;
+        const data = { participantId, trialIndex, objectOnScreen, filePlayed };
+    
+        fetch('http://localhost/my_project/selection_upload.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    }
+
     var acceptClicks = true;
 
     window.updateSelectionCounter = function() {
@@ -211,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectionCount++;
         totalSelectionCount++;
         updateSelectionCounter();
+        sendSelectionData(audioFile, speakerIndex);
 
         var audio = new Audio(audioFile);
         audio.play();
