@@ -11,8 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentImageIndex = 0;
     let mediaRecorder;
     let audioChunks = [];
-    let participantId = `Participant_${new Date().getTime()}`;
-    localStorage.setItem('participantId', participantId);
+    let participantId = localStorage.getItem('participantId');
 
     let images = [
         { src: 'components/pictures/karve.jpg', label: 'karve'},
