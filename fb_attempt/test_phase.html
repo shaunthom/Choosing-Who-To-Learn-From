@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+    <head>
+        <title>naming_trials</title>
+        <meta charset="utf-8">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Plugins required to run experiment -->
+        <script src="jatos.js"></script>
+
+        <script src="jspsych-6.2.0/jspsych.js"></script>
+        <script src="jspsych-6.2.0/dist/jspsych-call-function.js"></script>
+        <script src="jspsych-6.2.0/dist/jspsych-instructions.js"></script>
+        <script src="jspsych-6.2.0/dist/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.2.0/dist/jspsych-picnaming-voice-record-wav.js"></script>
+
+         <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet"></link>
+      </head>
+
+    <body>
+    <!-- define style of the start button here, id = "start-button"
+      browser interaction is required in some browsers for microphone access, see the Audio Set up Section at the end of the script-->
+	  	<p align="center">
+        <button id="start-button" style='visibility:hidden; margin-left:auto;margin-right:auto;display:block;margin-top:22%;margin-bottom:0%'>Start Naming</button>
+		</p>
+	</body>
+<script>
+
+var timeline = [];
+var rec_duration = 3000;
+	
+var item_pics_naming = [
+{ item: 'components/pictures/karve.jpg', block: 'namin_trial', object: 'karve', stim_num: '1', data: {test_part: 'naming', object: '', file: 'karve.png', label: 'karve', ID: '1'}},
+{ item: 'components/pictures/kiskis.jpg',block: 'namin_trial', object: 'kiskis', stim_num: '2', data: {test_part: 'naming', object: '', file: 'kiskis.png', label: 'kiskis', ID: '2'}},
+{ item: 'components/pictures/knyga.jpg', block: 'namin_trial',object: 'knyga', stim_num: '3', data: {test_part: 'naming', object: '', file: 'knyga.png', label: 'knyga', ID: '3'}},
+{ item: 'components/pictures/medis.jpg', block: 'namin_trial',object: 'medis', stim_num: '4', data: {test_part: 'naming', object: '', file: 'medis.png', label: 'medis', ID: '4'}},
+{ item: 'components/pictures/meska.jpg', block: 'namin_trial',object: 'meska', stim_num: '5', data: {test_part: 'naming', object: '', file: 'meska.png', label: 'meska', ID: '5'}},
+{ item: 'components/pictures/namas.jpg', block: 'namin_trial',object: 'namas', stim_num: '6', data: {test_part: 'naming', object: '', file: 'namas.png', label: 'namas', ID: '6'}},
+{ item: 'components/pictures/raktas.jpg', block: 'namin_trial',object: 'raktas', stim_num: '7', data: {test_part: 'naming', object: '', file: 'raktas.png', label: 'raktas', ID: '7'}},
+{ item: 'components/pictures/tigras.jpg',block: 'namin_trial', object: 'tigras', stim_num: '8', data: {test_part: 'naming', object: '', file: 'tigras.png', label: 'tigras', ID: '8'}},
+{ item: 'components/pictures/tortas.jpg', block: 'namin_trial',object: 'tortas', stim_num: '9', data: {test_part: 'naming', object: '', file: 'tortas.png', label: 'tortas', ID: '9'}},
+{ item: 'components/pictures/vista.jpg', block: 'namin_trial',object: 'vista', stim_num: '10', data: {test_part: 'naming', object: '', file: 'vista.png', label: 'vista', ID: '10'}},
+{ item: 'components/pictures/voras.jpg', block: 'namin_trial',object: 'voras', stim_num: '11', data: {test_part: 'naming', object: '', file: 'voras.png', label: 'voras', ID: '11'}},
+{ item: 'components/pictures/karve.jpg', block: 'namin_trial',object: 'karve', stim_num: '12', data: {test_part: 'naming', object: '', file: 'karve.png', label: 'karve', ID: '12'}},
+{ item: 'components/pictures/kiskis.jpg', block: 'namin_trial',object: 'kiskis', stim_num: '13', data: {test_part: 'naming', object: '', file: 'kiskis.png', label: 'kiskis', ID: '13'} },
+{ item: 'components/pictures/knyga.jpg', block: 'namin_trial',object: 'knyga', stim_num: '14', data: {test_part: 'naming', object: '', file: 'knyga.png', label: 'knyga', ID: '14'}},
+{ item: 'components/pictures/medis.jpg', block: 'namin_trial',object: 'medis' , stim_num: '15', data: {test_part: 'naming', object: '', file: 'medis.png', label: 'medis', ID: '15'}},
+{ item: 'components/pictures/meska.jpg', block: 'namin_trial',object: 'meska', stim_num: '16', data: {test_part: 'naming', object: '', file: 'meska.png', label: 'meska', ID: '16'}},
+{ item: 'components/pictures/namas.jpg', block: 'namin_trial',object: 'namas' , stim_num: '17', data: {test_part: 'naming', object: '', file: 'namas.png', label: 'namas', ID: '17'}},
+{ item: 'components/pictures/raktas.jpg', block: 'namin_trial',object: 'raktas', stim_num: '18', data: {test_part: 'naming', object: '', file: 'raktas.png', label: 'raktas', ID: '18'}},
+{ item: 'components/pictures/tigras.jpg', block: 'namin_trial',object: 'tigras' , stim_num: '19', data: {test_part: 'naming', object: '', file: 'tigras.png', label: 'tigras', ID: '19'}},
+{ item: 'components/pictures/tortas.jpg', block: 'namin_trial',object: 'tortas', stim_num: '20', data: {test_part: 'naming', object: '', file: 'tortas.png', label: 'tortas', ID: '20'}},
+{ item: 'components/pictures/vista.jpg', block: 'namin_trial',object: 'vista' , stim_num: '21', data: {test_part: 'naming', object: '', file: 'vista.png', label: 'vista', ID: '21'}},
+{ item: 'components/pictures/voras.jpg', block: 'namin_trial',object: 'voras' , stim_num: '22', data: {test_part: 'naming', object: '', file: 'voras.png', label: 'voras', ID: '22'}},
+];
+
+var fixation = {
+		type: html-keyboard-response,
+		stimulus: '<div style="font-size:60px;">+</div>',
+		choices: jsPsych.NO_KEYS,
+		trial_duration: 1000,
+}
+
+var voiceTrial = {
+      type: picnaming-voice-record-wav,
+      stimulus: jsPsych.timelineVariable('item'),
+      stimulus_duration: 2000, // picture disappears after 2000ms
+      trial_duration: rec_duration,
+      object: jsPsych.timelineVariable('object'),
+      stim_num: jsPsych.timelineVariable('stim_num'),
+      data: jsPsych.timelineVariable("data"),
+      on_finish: function(data) {
+          jsPsych.data.addDataToLastTrial(data);
+      },
+};
+
+var naming_procedure = {
+		timeline: [fixation, voiceTrial],
+		timeline_variables: item_pics_naming,
+		randomize_order: true
+};
+
+var thanks = {
+		type: instructions,
+		pages: ['<p>Thanks for completing the naming part. </p>'],
+		show_clickable_nav: true,
+		allow_backward: false,
+		button_label_next: '<p> Next</p>'
+};
+
+timeline.push(naming_procedure, thanks )
+
+function runExperiment() {
+  jatos.onLoad(function() {
+    subjectID = jatos.studyResultId;
+
+		jsPsych.run({
+        timeline: timeline,
+				on_interaction_data_update: function(data){      },
+
+        on_finish: function() {
+           //jatos gives a ResultID to each study run. This identifier will be saved in the logfiles and will become part of all the file names, including the audios
+        subjectID = jatos.studyResultId;
+        jsPsych.data.addProperties({
+        subject: subjectID,
+        });
+
+        var resultDataStr = jsPsych.data.get().csv();
+        jatos.submitResultData(resultDataStr, jatos.startNextComponent);
+				var promise2 = jatos.uploadResultFile(resultDataStr, "Id_" + subjectID +"_naming_trials.csv");
+
+        },
+    });
+	});
+}
+
+/* =============Set up audio stream =============*/
+var audio_context;
+var input;
+
+function SetUpAudio() {
+            try {
+                  // webkit shim
+                  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                  navigator.getUserMedia = ( navigator.getUserMedia ||
+                                   navigator.webkitGetUserMedia ||
+                                   navigator.mozGetUserMedia ||
+                                   navigator.msGetUserMedia);
+                  window.URL = window.URL || window.webkitURL;
+
+                  audio_context = new AudioContext;
+                  console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+                } catch (e) {
+                  alert('No web audio support in this browser!');
+                }
+
+            navigator.mediaDevices.getUserMedia({audio: true})
+            .then(startUserMedia)
+            .catch(function(err) {
+            console.log('No live audio input: ' + err);
+			      console.log(err);
+            alert("No microphone detected. Please make sure your microphone is switched on and retry. You could check if microphone access is blocked in your security settings in the browser preferences.");
+            });
+        }
+
+function startUserMedia(stream) {
+			      document.querySelector("#start-button").style.visibility = 'visible';
+            input = audio_context.createMediaStreamSource(stream);
+            console.log("input sample rate " +input.context.sampleRate);
+        }
+
+/* As of December 2018, Chrome requires user interaction to use audio stream once created
+Event listener: on button click, resume audio stream and launch experiment*/
+
+document.querySelector('#start-button').addEventListener('click', function() {
+			      {audio_context.resume().then(function () {
+            console.log('Playback resumed successfully');
+            runExperiment(); // run experiment, only after audio is set up
+            });
+			      }
+        });
+
+SetUpAudio();
+
+
+	</script>
+
+</html>

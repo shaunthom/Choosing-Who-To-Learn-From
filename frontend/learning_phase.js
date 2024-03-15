@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Generate a participant ID based on the timestamp and stores it in local storage for use in later scripts
     let participantId = `Participant_${new Date().getTime()}`;
     localStorage.setItem('participantId', participantId);
     document.getElementById('selection-counter').style.display = 'block'; 
@@ -6,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         override_safe_mode: true
     });
 
+    // Define the paths for speaker images to be used in the experiment
     var speakerImages = [
         'components/icons/Picture1.jpg',
         'components/icons/Picture2.jpg',
@@ -167,10 +169,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var totalSelectionCount = 0; // Counter for the total number of selections made
     var selectionCount = 0; // Counter for selections in the current trial
 
+    // Creates a trial where participants can select a speaker after the audio clip
     function createSpeakerSelectionTrial(centralImage, audioFiles, trialIndex) {
         return {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
+                // similar to familiarization.js code where we generated HTML content
                 var selectionCounterHTML = `<div id='selection-counter' class='selection-counter'>Selections: ${selectionCount}</div>`;
     
                 var html = '<div class="container">';
@@ -188,19 +192,23 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             choices: "NO_KEYS",
             on_load: function() {
-                selectionCount = 0; // Resetting selection count
+                // Resetting the selection count when the trial loads
+                selectionCount = 0;
             }
         };
     }
 
+    // Function to send the participant's selection data to the XAMPP server
     function sendSelectionData(audioFile, currentTrialIndex) {
-        
+
+        // data about the current selection
         const participantId = localStorage.getItem('participantId');
         const objectOnScreen = document.querySelector('.center-image img').getAttribute('src');
         const filePlayed = audioFile;
         const trialIndex = selectionCount;
         const data = { participantId, trialIndex, objectOnScreen, filePlayed };
     
+        // sends data to the server using a POST request and fetch API
         fetch('http://localhost/my_project/selection_upload.php', {
             method: 'POST',
             headers: {
@@ -213,8 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch((error) => console.error('Error:', error));
     }
 
+    // Flag to control click interactions, mainly to prevent double selections
     var acceptClicks = true;
 
+    // Function to update the selection counter display
     window.updateSelectionCounter = function() {
         var counterElement = document.getElementById('selection-counter');
         if (counterElement) {
@@ -222,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
+    // Function to handle audio playback and selection logging
     window.playAudio = function(audioFile, speakerIndex) {
         if (!acceptClicks) return; // Ignoring clicks if not accepting clicks
 
@@ -272,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    
+    // ppopulates timeline with trials based on the centralImageData
     centralImageData.forEach(function(data, index) {
         timeline.push(createSpeakerSelectionTrial(data.image, data.audioFiles));
     });

@@ -1,5 +1,6 @@
 var jsPsychInstance;
 
+// Function to start the experiment
 function startExperiment() {
     jsPsychInstance = initJsPsych({
         override_safe_mode: true
@@ -86,6 +87,7 @@ function startExperiment() {
     };
     timeline.push(feedback_ball);
 
+    // Final check to reload the page or move to the next phase based on the 'apple' and 'ball' response
     var final_check = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
@@ -96,10 +98,9 @@ function startExperiment() {
             if (ballResponseData && ballResponseData.response) {
                 var lastResponse = ballResponseData.response.response.trim().toLowerCase();
                 if (lastResponse !== 'ball') {
-                    
                     window.location.reload();
                 } else {
-                    
+                    // Move to the next phase if 'apple' and 'ball' was correctly identified
                     window.location.href = 'familiarization_instructions.html'; 
                 }
             } else {

@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // References to HTML elements that will be interacted with
     const startBtn = document.getElementById('startBtn');
     const instructionsDiv = document.getElementById('instructionsDiv');
     const imagesContainer = document.getElementById('imagesContainer');
     const audio = document.getElementById('labelAudio');
+    // Retrieve the participant ID stored in the browser's localStorage (generated in learning_phase.js)
     let participantId = localStorage.getItem('participantId');
 
     let images = [
@@ -45,13 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
         {src: 'components/audio_files/F1_voras.wav', label: 'voras'}
     ];
 
+    // Index to track which audio file is currently being played
     let currentAudioIndex = 0;
+
+    // Boolean to control if images can be clicked or not
     let isClickable = true;
 
+    // Event listener to start the experiment when the start button is clicked
     startBtn.addEventListener('click', function() {
         startExperiment();
     });
 
+    // Shuffling function described below
     function shuffleArray(array) {
         let shuffled = [];
         let previousLabel = "";
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let randomIndex = Math.floor(Math.random() * array.length);
             let item = array[randomIndex];
 
+            // Avoids consecutive items with the same label to ensure pseudo random order
             if (item.label === previousLabel && array.length > 1) {
 
                 continue;
@@ -73,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return shuffled;
     }
 
+    // Starts the experiment: hides instructions and displays images
     function startExperiment() {
         instructionsDiv.style.display = 'none';
         imagesContainer.style.display = 'grid';
@@ -83,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(playAudioFile, 3000); 
     }
 
+    // Loads and displays images in the DOM
     function loadImages() {
         images.forEach(image => {
             const imgElement = document.createElement('img');
@@ -98,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Plays the current audio file and allows clicks after it ends
     function playAudioFile() {
         if (currentAudioIndex < audioFiles.length) {
             audio.src = audioFiles[currentAudioIndex].src;
@@ -110,13 +121,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Handles clicks on images by sending the selected response to the XAMPP server
     function handleImageClick(event) {
-        if (!isClickable) return;
-    
+        if (!isClickable) return; // Ignore clicks if not currently clickable
+        
+        // Identify the selected label and the label of the current audio
         const selectedLabel = event.target.alt;
         const audioLabel = audioFiles[currentAudioIndex].label;
         const trialNumber = currentAudioIndex + 1;
-    
+        
+         // HighlightS the selected image
         event.target.style.border = '5px solid yellow';
         setClickability(false); // Disable further clicks until the next audio is played
     
@@ -132,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Sending participantId: ${participantId}`);
         xhr.send(`participantId=${encodeURIComponent(participantId)}&trialNumber=${trialNumber}&audioLabel=${encodeURIComponent(audioLabel)}&selectedLabel=${encodeURIComponent(selectedLabel)}`);
 
-    
+        // Reset image border and proceed to next audio after a delay
         setTimeout(() => {
             event.target.style.border = '5px solid transparent';
         }, 350);  // Change Border visiblity here - currently set for 350 milliseconds
@@ -152,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'survey.html';
     }
 
+    // Enables or disables clickability for all images
     function setClickability(state) {
         isClickable = state;
         const allImages = document.querySelectorAll('.clickable-image');

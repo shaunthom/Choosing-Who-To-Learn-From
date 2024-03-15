@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { image: 'components/icons/Picture8.jpg', audio: 'components/audio_files/M4_klounas.wav' }
     ];
 
+    // Create an array of indices based on the speakers array to shuffle and randomize trial order
     var indices = speakers.map((_, i) => i);
 
+    // Shuffle function so that participants do not get an urge to click in a circle manner
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -25,15 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Shuffling the indices
+    // Shuffling the indices to randomize the order of speaker trials
     shuffleArray(indices);
 
+    // Loop through the shuffled indices to create trials for each speaker
     indices.forEach(function(index) {
         var speaker = speakers[index];
         // Trial for displaying speakers:
         var speaker_display_trial = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
+
+                // Constructing HTML content to display speaker images and the central clown image
                 var html = '<div class="container">';
                 html += '<div class="speakers">';
 
@@ -49,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             choices: "NO_KEYS",
             on_load: function() {
+                // Next trial is triggered when the active speaker image is clicked
                 document.getElementById(`speaker_${index}`).addEventListener('click', function() {
                     jsPsychInstance.nextTrial();
                 });
@@ -63,10 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
             trial_ends_after_audio: true
         };
         timeline.push(speaker_audio_trial);
-    
+        
+        // Function for a small interval of 2 seconds for a brief pause between speakers
         var iti_trial = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
+                // Similar to the display trial, but includes a fixed duration
                 var html = '<div class="container">';
                 html += '<div class="speakers">';
 
@@ -85,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeline.push(iti_trial);
     });
 
+    // Trial to redirect to the next part of the experiment after all speakers have been presented
     var redirect_trial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '<p>Redirecting to the next part of the experiment...</p>',
@@ -96,5 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     timeline.push(redirect_trial);
 
+    // To start the jsPsych experiment
     jsPsychInstance.run(timeline);
 });
