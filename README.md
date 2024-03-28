@@ -45,41 +45,33 @@ There is a navigation button to proceed to the next step.
 #### Audio Test 
 
 This section tests if participants' audio is working properly by playing a word and asking them to type what they hear.
-Features:
-Input field for participants to enter the heard word.
-Continuation button to validate the entered word and move forward.
 
+There are input fields for the participants to enter the heard word and move forward.
 
 #### Familiarization Phase
 
 Participants get acquainted with the speakers' voices as they say a word in the target language.
-Features:
-Visual cues to indicate speaker selection.
-Audio playback to familiarize with each speaker's voice.
 
+There are Visual cues to indicate speaker selection and audio playback to familiarize with each speaker's voice.
 
 #### Learning Phase
 
-Participants choose which speaker they want to hear each word from during the learning phase.
-Features:
-Ability to choose from multiple speakers represented by icons.
-Interactive elements that respond to the participant's selections.
+Here, participants choose which speaker they want to hear each word from during the learning phase.
+
+So, they have the ability to choose from multiple speakers represented by icons. There is also a counter on the right hand of the screen which keeps track of the number of selections that the participant made.
 
 
 #### Production Test
 
 In this phase, participants are prompted to produce the words they've learned in the target language.
-Features:
-A simple interface for recording responses.
-The “Record Response” button to capture participant’s spoken words.
 
+It is a relatively simple interface for recording responses and the “Record Response” button captures the participant’s spoken words.
 
 #### Comprehension Test
 
-Participants demonstrate their understanding by matching audio words to the correct images.
-Features:
-A grid of images to choose from.
-Audio cues that play the word to be matched with the images.
+Participants demonstrate their understanding by matching audio words to the correct images in this stage.
+
+There are a grid of images to choose from and audio cues that play the word to be matched with the images.
 
 ## Practical Use
 
