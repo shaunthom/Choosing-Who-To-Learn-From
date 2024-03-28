@@ -38,11 +38,16 @@ Before diving in, ensure you have:
 
 #### Welcome Screen 
 
+![demo](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/ce93a2a6-dbac-4407-8c05-8176c28fa792)
+
 This is the first touchpoint with participants, offering an introduction and explaining the experiment's objective.
 
 There is a navigation button to proceed to the next step.
 
+
 #### Audio Test 
+
+![audio_response](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/b67a1770-f93b-42b1-8829-85fc1650f1a4)
 
 This section tests if participants' audio is working properly by playing a word and asking them to type what they hear.
 
@@ -50,11 +55,15 @@ There are input fields for the participants to enter the heard word and move for
 
 #### Familiarization Phase
 
+![clown_familiarization](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/ca7e9339-f9e2-497c-bbd2-d1ba689c580e)
+
 Participants get acquainted with the speakers' voices as they say a word in the target language.
 
 There are Visual cues to indicate speaker selection and audio playback to familiarize with each speaker's voice.
 
 #### Learning Phase
+
+![selection_response](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/e806c41f-a8ff-4e0c-a556-7d7cf5ff601a)
 
 Here, participants choose which speaker they want to hear each word from during the learning phase.
 
@@ -63,11 +72,15 @@ So, they have the ability to choose from multiple speakers represented by icons.
 
 #### Production Test
 
+![record_response](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/3bff8d66-6f12-4ed4-bf04-1bd800e280a0)
+
 In this phase, participants are prompted to produce the words they've learned in the target language.
 
 It is a relatively simple interface for recording responses and the “Record Response” button captures the participant’s spoken words.
 
 #### Comprehension Test
+
+![comprehension_response](https://github.com/shaunthom/JavaScript-Framework-Based-Selection-Study/assets/134566032/2256405c-9d5c-43d4-8060-462339edda2d)
 
 Participants demonstrate their understanding by matching audio words to the correct images in this stage.
 
