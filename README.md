@@ -17,47 +17,6 @@ What is the need for this application? Digital learning platforms offers a lot o
 - **Real-time Feedback and Adaptation:** Immediate audio playback and dynamic session adjustments based on user choices and interactions.
 - **Comprehensive Learning Evaluation:** Through a structured series of tests, assess the effectiveness of personalized speaker selection on language acquisition.
 
-## Backend Integration
-
-The experiment is supported by a backend infrastructure that records participant interactions and preferences across various phases of the experiment. Data is stored in a MySQL database, structured as follows:
-
-#### Database Schema
-
-##### Learning Phase Selections
-
-The learning phase captures data in the following format:
-
-![selection_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/ec0dfc87-86f0-4bca-a29c-d4198faa1880)
-
-The table has 5 columns:
-
-1. id: A unique number for each action a learner takes, making sure each one is counted separately.
-2. participantId: A special code for each person taking part, so that we know which participant made the choices. It will be the same throughout the experiment for a particular participant
-3. trialIndex: Informs us the number of selections that the participant made till that particular trial 
-4. objectOnScreen: The object a learner sees on the screen when they make a choice.
-5. FilePlayed: The word that is played for the learner during the activity.
-
-##### Recording Phase Submissions
-
-The recording phase stores audio data along with some other peripheral data:
-
-![recording_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/43d93ed4-1366-4ac8-a61d-5c6f2b07c9df)
-
-1. participant_id: The unique code for each participant. 
-2. trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
-3. trial_name: The name of the object the participant sees on the screen when they record their choice.
-4. audio_response: The learner's recorded answer or attempt
-
-##### Comprehension Phase Selections
-
-The comprehension phase , which is also responsible for assessing the retention of the participants, stores data in the following strcuture:
-
-![comprehension_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/9592577f-5fca-4ef8-8edb-aacb4f5d6ddb)
-
-1. participant_id: The unique code for each participant. 
-2. trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
-3. audio_label: The word or sound that is played for the learner.
-4. selected_label: The learner's recorded answer or attempt
 
 ## Launch Guide
 
@@ -128,11 +87,52 @@ Participants demonstrate their understanding by matching audio words to the corr
 
 There are a grid of images to choose from and audio cues that play the word to be matched with the images.
 
-## Practical Use
+## Backend Integration
 
-Engage with the experiment as a participant, selecting speakers, listening to words, and testing your learning through various phases. Each interaction is a step towards understanding the impact of speaker selection on language learning.
+The experiment is supported by a backend infrastructure that records participant interactions and preferences across various phases of the experiment. Data is stored in a MySQL database, structured as follows:
+
+#### Database Schema
+
+##### Learning Phase Selections
+
+The learning phase captures data in the following format:
+
+![selection_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/ec0dfc87-86f0-4bca-a29c-d4198faa1880)
+
+The table has 5 columns:
+
+1. id: A unique number for each action a learner takes, making sure each one is counted separately.
+2. participantId: A special code for each person taking part, so that we know which participant made the choices. It will be the same throughout the experiment for a particular participant
+3. trialIndex: Informs us the number of selections that the participant made till that particular trial 
+4. objectOnScreen: The object a learner sees on the screen when they make a choice.
+5. FilePlayed: The word that is played for the learner during the activity.
+
+##### Recording Phase Submissions
+
+The recording phase stores audio data along with some other peripheral data:
+
+![recording_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/43d93ed4-1366-4ac8-a61d-5c6f2b07c9df)
+
+1. participant_id: The unique code for each participant. 
+2. trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
+3. trial_name: The name of the object the participant sees on the screen when they record their choice.
+4. audio_response: The learner's recorded answer or attempt
+
+##### Comprehension Phase Selections
+
+The comprehension phase , which is also responsible for assessing the retention of the participants, stores data in the following strcuture:
+
+![comprehension_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/9592577f-5fca-4ef8-8edb-aacb4f5d6ddb)
+
+1. participant_id: The unique code for each participant. 
+2. trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
+3. audio_label: The word or sound that is played for the learner.
+4. selected_label: The learner's recorded answer or attempt
+
 
 ## Insights and Impact
+
+Engage with the experiment as a participant, selecting speakers, listening to words, and testing your learning through various phases. Each interaction is a step towards understanding the impact of speaker selection on language learning.
 
 Discover the direct effects of your speaker choices on language acquisition through detailed post-experiment analysis and results, paving the way for further research and application development in tailored language learning solutions.
 
