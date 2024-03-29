@@ -31,8 +31,8 @@ The learning phase captures data in the following format:
 The table has 5 columns:
 
 1. id: A unique number for each action a learner takes, making sure each one is counted separately.
-2. participantId: A special code for each person taking part, so that we know which participant made the choices
-3. trialIndex: Tells us the order of activities, like which came first, second, and so on.
+2. participantId: A special code for each person taking part, so that we know which participant made the choices. It will be the same throughout the experiment for a particular participant
+3. trialIndex: Informs us the number of selections that the participant made till that particular trial 
 4. objectOnScreen: The object a learner sees on the screen when they make a choice.
 5. FilePlayed: The word that is played for the learner during the activity.
 
@@ -40,20 +40,19 @@ The table has 5 columns:
 
 The recording phase stores audio data along with some other peripheral data:
 
-participant_id: Just like participantId, it's a unique code for each person.
-trial_number: A number showing which activity the learner is doing.
-trial_name: The name of the activity or challenge the learner is trying to complete.
-audio_response: The learner's recorded answer or attempt at the challenge.
+participant_id: The unique code for each participant. 
+trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
+trial_name: The name of the object the participant sees on the screen when they record their choice.
+audio_response: The learner's recorded answer or attempt
 
 ##### Comprehension Phase Selections
 
-The comprehension phase (responsible for assessing the retention of the participants)stores data in the following strcuture:
+The comprehension phase , which is also responsible for assessing the retention of the participants, stores data in the following strcuture:
 
-id: Again, a unique number for each thing a learner does in this part of the test.
-participant_id: The unique code that tells us which learner is doing the activity.
-trial_number: Tells us the sequence of the test, like which part the learner is on.
+participant_id: The unique code for each participant. 
+trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
 audio_label: The word or sound that is played for the learner.
-selected_label: What the learner picks as their answer after hearing the sound.
+selected_label: The learner's recorded answer or attempt
 
 ## Launch Guide
 
