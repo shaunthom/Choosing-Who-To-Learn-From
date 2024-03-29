@@ -2,7 +2,7 @@
 
 # Language Learning Speaker Selection Experiment
 
-## Overview - The Challenge
+## Overview
 
 At the core of our web-based experiment is a fundamental question: How do language learners' preferences for certain speakers influence their ability to learn new words? This project is designed to investigate the efficacy of personalized speaker selection in language acquisition.
 
@@ -16,6 +16,44 @@ What is the need for this application? Digital learning platforms offers a lot o
 - **Speaker Selection Dynamics:** Experiment with the freedom to select any combination of speakers for each word, exploring diverse linguistic nuances.
 - **Real-time Feedback and Adaptation:** Immediate audio playback and dynamic session adjustments based on user choices and interactions.
 - **Comprehensive Learning Evaluation:** Through a structured series of tests, assess the effectiveness of personalized speaker selection on language acquisition.
+
+## Backend Integration
+
+The experiment is supported by a backend infrastructure that records participant interactions and preferences across various phases of the experiment. Data is stored in a MySQL database, structured as follows:
+
+#### Database Schema
+
+##### Learning Phase Selections
+
+The learning phase captures data in the following format:
+
+
+The table has 5 columns:
+
+1. id: A unique number for each action a learner takes, making sure each one is counted separately.
+2. participantId: A special code for each person taking part, so that we know which participant made the choices
+3. trialIndex: Tells us the order of activities, like which came first, second, and so on.
+4. objectOnScreen: The object a learner sees on the screen when they make a choice.
+5. FilePlayed: The word that is played for the learner during the activity.
+
+##### Recording Phase Submissions
+
+The recording phase stores audio data along with some other peripheral data:
+
+participant_id: Just like participantId, it's a unique code for each person.
+trial_number: A number showing which activity the learner is doing.
+trial_name: The name of the activity or challenge the learner is trying to complete.
+audio_response: The learner's recorded answer or attempt at the challenge.
+
+##### Comprehension Phase Selections
+
+The comprehension phase (responsible for assessing the retention of the participants)stores data in the following strcuture:
+
+id: Again, a unique number for each thing a learner does in this part of the test.
+participant_id: The unique code that tells us which learner is doing the activity.
+trial_number: Tells us the sequence of the test, like which part the learner is on.
+audio_label: The word or sound that is played for the learner.
+selected_label: What the learner picks as their answer after hearing the sound.
 
 ## Launch Guide
 
