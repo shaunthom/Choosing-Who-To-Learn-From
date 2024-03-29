@@ -27,8 +27,7 @@ The experiment is supported by a backend infrastructure that records participant
 
 The learning phase captures data in the following format:
 
-![selection_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/4ff938db-5976-4008-92d5-b965edee5a02)
-
+![selection_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/ec0dfc87-86f0-4bca-a29c-d4198faa1880)
 
 The table has 5 columns:
 
@@ -42,7 +41,7 @@ The table has 5 columns:
 
 The recording phase stores audio data along with some other peripheral data:
 
-![recording_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/8cfe4041-94be-4a9b-aa58-2a72cded747d)
+![recording_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/43d93ed4-1366-4ac8-a61d-5c6f2b07c9df)
 
 participant_id: The unique code for each participant. 
 trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
@@ -53,7 +52,7 @@ audio_response: The learner's recorded answer or attempt
 
 The comprehension phase , which is also responsible for assessing the retention of the participants, stores data in the following strcuture:
 
-![comprehension_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/26876808-0bb2-4be3-a571-266f7aa7bcd6)
+![comprehension_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/9592577f-5fca-4ef8-8edb-aacb4f5d6ddb)
 
 participant_id: The unique code for each participant. 
 trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
