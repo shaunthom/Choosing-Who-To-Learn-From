@@ -43,10 +43,10 @@ The recording phase stores audio data along with some other peripheral data:
 
 ![recording_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/43d93ed4-1366-4ac8-a61d-5c6f2b07c9df)
 
-participant_id: The unique code for each participant. 
-trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
-trial_name: The name of the object the participant sees on the screen when they record their choice.
-audio_response: The learner's recorded answer or attempt
+1. participant_id: The unique code for each participant. 
+2. trial_number: A number that helps the administrator keep track of the number of recordings the participant has made so far
+3. trial_name: The name of the object the participant sees on the screen when they record their choice.
+4. audio_response: The learner's recorded answer or attempt
 
 ##### Comprehension Phase Selections
 
@@ -54,10 +54,10 @@ The comprehension phase , which is also responsible for assessing the retention 
 
 ![comprehension_database](https://github.com/shaunthom/Choosing-Who-To-Learn-From/assets/134566032/9592577f-5fca-4ef8-8edb-aacb4f5d6ddb)
 
-participant_id: The unique code for each participant. 
-trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
-audio_label: The word or sound that is played for the learner.
-selected_label: The learner's recorded answer or attempt
+1. participant_id: The unique code for each participant. 
+2. trial_number: A number that helps the administrator keep track of the number of selections the participant has made so far
+3. audio_label: The word or sound that is played for the learner.
+4. selected_label: The learner's recorded answer or attempt
 
 ## Launch Guide
 
