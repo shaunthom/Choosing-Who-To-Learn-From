@@ -14,9 +14,8 @@ What is the need for this application? Digital learning platforms offers a lot o
 
 - **Interactive Learning Sessions:** Engage with a web-based interface designed for optimal user experience, choosing speakers to learn from.
 - **Speaker Selection Dynamics:** Experiment with the freedom to select any combination of speakers for each word, exploring diverse linguistic nuances.
-- **Real-time Feedback and Adaptation:** Immediate audio playback and dynamic session adjustments based on user choices and interactions.
 - **Comprehensive Learning Evaluation:** Through a structured series of tests, assess the effectiveness of personalized speaker selection on language acquisition.
-
+- **Data Hub:** Through the learning, recording and comprehension phase, the system captures and stores users' verbal responses and comprehension choices. This allows for a detailed assessment of language acquisition, enabling tailored feedback to enhance learning outcomes.
 
 ## Launch Guide
 
