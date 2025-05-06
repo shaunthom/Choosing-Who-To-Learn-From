@@ -22,7 +22,7 @@ What is the need for this application? Digital learning platforms offers a lot o
 ### Setup Requirements
 
 Before diving in, ensure you have:
-- A PHP and MySQL supporting server environment.
+- A MySQL supporting server environment.
 - Python setup for Flask backend operations (optional for extended functionalities).
 - A contemporary browser ready for modern web applications like Chrome, Brave Browser, Safari, etc.
 
